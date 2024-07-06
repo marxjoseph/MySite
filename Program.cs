@@ -8,6 +8,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args); // Creates an instance
 builder.RootComponents.Add<App>("#app"); // Adds App.razor as a root component with an id of app
 builder.RootComponents.Add<HeadOutlet>("head::after"); // Allows for PageTitle and HeadContent to render ("head::after" is making everything from HeadOutlet be appended to <head> in index.html")
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+// Builder Services is where you canregister services for dependency injection
+// AddScoped is creating a new instance per scope (typically corresponds to each HTTP request)
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) }); 
 
-await builder.Build().RunAsync();
+await builder.Build().RunAsync(); // Build finalized the setup of the application, compiles everything that was done
