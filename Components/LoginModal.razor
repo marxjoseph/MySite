@@ -1,0 +1,90 @@
+﻿@using MySite.Models;
+
+@inject HttpClient Http
+
+<div class="modal" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="() => Close()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <EditForm EditContext="@loginEditContext" OnValidSubmit="Submit" class="formish">
+                <DataAnnotationsValidator />
+                <div class="modal-body">
+                    <div class="mb-1">
+                        <ValidationMessage For="@(() => loginInformation.Username)" />
+                    </div>
+                    <div class="mb-3"
+                        <label for="Username" class="form-label">Username:</label>
+                        <InputText id="Username" @bind-Value="loginInformation.Username" type="text" placeholder="Username" aria-label="Password" aria-describedby="basic-addon1" class="form-control"></InputText>
+                    </div>
+                    <div class="mb-3"
+                        <label for="Password" class="form-label">Password:</label>
+                        <InputText id="Password" @bind-Value="loginInformation.Password" type="text" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" class="form-control"></InputText>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+             </EditForm>
+        </div>
+    </div>
+</div>
+
+@if (ShowBackdrop)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code {
+
+    private MySite.Models.LoginInformation[]? logins;
+    public LoginInformation loginInformation = new LoginInformation();
+    public string ModalDisplay = "block";
+    public bool ShowBackdrop = true;
+    public EditContext? loginEditContext = null;
+
+    protected override void OnInitialized()
+    {
+        loginEditContext = new EditContext(loginInformation);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        logins = await Http.GetFromJsonAsync<LoginInformation[]>("sample-data/logins.json");
+    }
+
+    /*
+    public void Open()
+    {
+    ModalDisplay = "block";
+    ShowBackdrop = true;
+    StateHasChanged();
+    }
+    */
+
+    public void Submit()
+    {
+        foreach(var login in logins!)
+        {
+            if (loginInformation.Username == login.Username && loginInformation.Password == login.Password)
+            {
+                Close();
+                return;
+            }
+        }
+        loginInformation.Username = string.Empty;
+        loginInformation.Password = string.Empty;
+        loginEditContext?.Validate();
+    }
+
+    public void Close()
+    {
+        ModalDisplay = "none";
+        ShowBackdrop = false;
+        StateHasChanged();
+    }
+}
