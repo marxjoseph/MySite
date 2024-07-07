@@ -1,14 +1,19 @@
-﻿<div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+﻿<div class="modal" tabindex="-1" role="dialog" style="display:@ModalDisplay">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title">Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="() => Close()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <div class="input-group mb-3">
+                    <input @bind-value=Username type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <input @bind-value=Password type ="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary">Save changes</button>
@@ -26,23 +31,23 @@
 
 
 @code {
-    public Guid Guid = Guid.NewGuid();
-    public string ModalDisplay = "none;";
-    public string ModalClass = "";
-    public bool ShowBackdrop = false;
+    public string Username = "";
+    public string Password = "";
+    public string ModalDisplay = "block";
+    public bool ShowBackdrop = true;
 
+    /*
     public void Open()
     {
-        ModalDisplay = "block;";
-        ModalClass = "Show";
+        ModalDisplay = "block";
         ShowBackdrop = true;
         StateHasChanged();
     }
+    */
 
     public void Close()
     {
         ModalDisplay = "none";
-        ModalClass = "";
         ShowBackdrop = false;
         StateHasChanged();
     }
