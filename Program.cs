@@ -6,6 +6,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args); // Creates an instance
 
 // Root Components are directly rendered in the html document
 builder.RootComponents.Add<App>("#app"); // Adds App.razor as a root component with an id of app
+builder.RootComponents.Add<MySite.Pages.Login>("#login");
 builder.RootComponents.Add<HeadOutlet>("head::after"); // Allows for PageTitle and HeadContent to render ("head::after" is making everything from HeadOutlet be appended to <head> in index.html")
 
 // Builder Services is where you canregister services for dependency injection
