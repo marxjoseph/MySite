@@ -1,39 +1,50 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿﻿<div class="top-row ps-3 navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">MySite</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+        <button title="Navigation menu" class="navbar-toggler">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
+<ul class="nav flex-column bg-dark" style="height:100%;">
+    <li class="nav-item">
+        <a class="nav-link @activeLinkOne" href="" @onclick="() => ChangeActive(1)">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @activeLinkTwo" href="counter" @onclick="() => ChangeActive(2)">Counter</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @activeLinkThree" href="weather" @onclick="() => ChangeActive(3)">Weather</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+    </li>
+</ul>
 
 @code {
-    private bool collapseNavMenu = true;
+    public string activeLinkOne = "active";
+    public string activeLinkTwo = "";
+    public string activeLinkThree = "";
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    private void ChangeActive(int linkNumber)
     {
-        collapseNavMenu = !collapseNavMenu;
+        if (linkNumber == 1)
+        {
+            activeLinkOne = "active";
+            activeLinkTwo = "";
+            activeLinkThree = "";
+        }
+        else if (linkNumber == 2) 
+        {
+            activeLinkOne = "";
+            activeLinkTwo = "active";
+            activeLinkThree = "";
+        }
+        else if (linkNumber == 3)
+        {
+            activeLinkOne = "";
+            activeLinkTwo = "";
+            activeLinkThree = "active";
+        }
     }
 }
